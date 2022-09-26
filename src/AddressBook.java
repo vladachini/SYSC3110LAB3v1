@@ -13,6 +13,11 @@ public class AddressBook {
         }
         return null;
     }
+    public void printBuddies(){
+        for (BuddyInfo buddy : buddies){
+            System.out.println(buddy.getName());
+        }
+    }
 
     public void addBuddy(BuddyInfo buddy) {
         buddies.add(buddy);
@@ -22,6 +27,8 @@ public class AddressBook {
         BuddyInfo buddy = new BuddyInfo("Tom","Carleton", 613);
         AddressBook addressBook = new AddressBook();
         addressBook.addBuddy(buddy);
+        addressBook.printBuddies();
         addressBook.removeBuddy(0);
+
     }
 }
