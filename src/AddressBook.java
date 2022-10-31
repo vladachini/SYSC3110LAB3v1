@@ -1,26 +1,35 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 //Testing Github editing
-public class AddressBook {
+public class AddressBook extends DefaultListModel  {
 
-    private ArrayList<BuddyInfo> buddies;
+    private DefaultListModel<BuddyInfo> buddies;
 
     public AddressBook () {
-        buddies = new ArrayList<BuddyInfo>();
+        buddies = new DefaultListModel<>();
     }
-    public BuddyInfo removeBuddy(int index) {
-        if(index >= 0 && index < buddies.size()){
-            return buddies.remove(index);
-        }
-        return null;
+    public void removeBuddy(BuddyInfo buddy) {
+
+        buddies.removeElement(buddy);
+
     }
     public void printBuddies(){
-        for (BuddyInfo buddy : buddies){
-            System.out.println(buddy.getName());
+        for (int i =0; i< buddies.size(); i++){
+            System.out.println(buddies.get(i).getName());
         }
+    }
+    public void clearList(){
+        buddies.removeRange(0, buddies.size()-1);
+    }
+
+    public DefaultListModel<BuddyInfo> getBuddies(){
+        return buddies;
     }
 
     public void addBuddy(BuddyInfo buddy) {
-        buddies.add(buddy);
+        buddies.addElement(buddy);
     }
     public static void main(String[] args) {
         System.out.println("Address Book");
@@ -28,7 +37,9 @@ public class AddressBook {
         AddressBook addressBook = new AddressBook();
         addressBook.addBuddy(buddy);
         addressBook.printBuddies();
-        addressBook.removeBuddy(0);
+        //addressBook.removeBuddy(0);
 
     }
+
+
 }
