@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class AddressBookGUI extends JFrame implements ActionListener, ListSelectionListener {
+public class AddressBookView extends JFrame  {
 
     private JFrame frame;
     private JMenu addrBookMenu, buddyInfoMenu;
@@ -17,7 +17,9 @@ public class AddressBookGUI extends JFrame implements ActionListener, ListSelect
 
     private List selected;
     private AddressBook addressBook;
-    public AddressBookGUI(AddressBook addressBook) {
+
+    private AddressBookController abc;
+    public AddressBookView(AddressBook addressBook) {
         super("AdressBookGUI");
         frame = new JFrame("Address Book");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,6 +27,7 @@ public class AddressBookGUI extends JFrame implements ActionListener, ListSelect
         frame.getContentPane().setLayout(new FlowLayout());
 
         this.addressBook = addressBook;
+        abc = new AddressBookController(addressBook, this);
 
         menuBar = new JMenuBar();
 
@@ -35,18 +38,18 @@ public class AddressBookGUI extends JFrame implements ActionListener, ListSelect
         menuBar.add(addrBookMenu);
         operations = new JMenuItem("Create a new AddressBook");
         operations.setActionCommand("Create AddressBook");
-        operations.addActionListener(this);
+        operations.addActionListener(abc);
         addrBookMenu.add(operations);
         operations = new JMenuItem("Display BuddyInfos");
         operations.setActionCommand("Display");
-        operations.addActionListener(this);
+        operations.addActionListener(abc);
         addrBookMenu.add(operations);
 
         //Creating buddyInfo Menu
         menuBar.add(buddyInfoMenu);
         operations = new JMenuItem("Add a Buddy");
         operations.setActionCommand("Add");
-        operations.addActionListener(this);
+        operations.addActionListener(abc);
         buddyInfoMenu.add(operations);
         operations = new JMenuItem("Remove a Buddy");
         operations.setActionCommand("Remove");
@@ -54,13 +57,18 @@ public class AddressBookGUI extends JFrame implements ActionListener, ListSelect
 
 
         buddies = new JList<>(addressBook.getBuddies());
-        buddies.addListSelectionListener(this);
+        buddies.addListSelectionListener(abc);
         buddies.setVisible(false);
 
-        operations.addActionListener(this);
+        addressBook.addListeners(this);
+        operations.addActionListener(abc);
         frame.setJMenuBar(menuBar);
         frame.add(new JScrollPane(buddies));
         frame.setVisible(true);
+    }
+
+    public JList getBuddies(){
+        return buddies;
     }
 
 
@@ -72,37 +80,10 @@ public class AddressBookGUI extends JFrame implements ActionListener, ListSelect
         addressBook.addBuddy(buddy);
         addressBook.addBuddy(buddy2);
         addressBook.addBuddy(buddy3);
-        AddressBookGUI ab1 = new AddressBookGUI(addressBook);
+        AddressBookView ab1 = new AddressBookView(addressBook);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if("Create AddressBook".equals(e.getActionCommand())){
-            addressBook.clearList();
-        } else if ("Display".equals(e.getActionCommand())) {
-            buddies.setVisible(true);
-        } else if ("Add".equals(e.getActionCommand())) {
-            String buddyName= JOptionPane.showInputDialog("Please input the Buddy Name");
-            String buddyAddress= JOptionPane.showInputDialog("Please input the Buddy Address");
-            long buddyPhone= Long.parseLong(JOptionPane.showInputDialog("Please input the Buddy Phone Number"));
-            BuddyInfo newBuddy = new BuddyInfo(buddyName,buddyAddress,buddyPhone);
-            addressBook.addBuddy(newBuddy);
-            System.out.println(newBuddy);
-        } else if ("Remove".equals(e.getActionCommand())) {
-            if(selected.size() >=1){
-                for(int i = 0; i <selected.size(); i++){
-                    addressBook.removeBuddy((BuddyInfo)selected.get(i));
-                }
-            }
-            System.out.println("Remove BuddyInfo");
-        }
-    }
+    public void update(){
 
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {
-            selected =  buddies.getSelectedValuesList();
-            System.out.println(selected);
-        }
     }
 }
