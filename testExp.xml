@@ -1,0 +1,23 @@
+<addressBook>
+	<buddyInfo> 
+        <buddy>
+        	 <name>Tom</name>
+        	 <address>Carleton</address>
+        	 <phone>613-123-4569</phone>
+        </buddy>
+	 </buddyInfo> 
+	<buddyInfo> 
+        <buddy>
+        	 <name>vlad</name>
+        	 <address>Carleton</address>
+        	 <phone>613-345-4320</phone>
+        </buddy>
+	 </buddyInfo> 
+	<buddyInfo> 
+        <buddy>
+        	 <name>bob</name>
+        	 <address>Carleton</address>
+        	 <phone>613-343-4530</phone>
+        </buddy>
+	 </buddyInfo> 
+</addressBook>

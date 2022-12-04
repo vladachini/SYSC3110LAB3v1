@@ -44,6 +44,30 @@ public class AddressBookView extends JFrame  {
         operations.setActionCommand("Display");
         operations.addActionListener(abc);
         addrBookMenu.add(operations);
+        operations = new JMenuItem("Export Addressbook");
+        operations.setActionCommand("Export");
+        operations.addActionListener(abc);
+        addrBookMenu.add(operations);
+        operations = new JMenuItem("Import Addressbook");
+        operations.setActionCommand("Import");
+        operations.addActionListener(abc);
+        addrBookMenu.add(operations);
+        operations = new JMenuItem("Export Serial Addressbook");
+        operations.setActionCommand("Export S");
+        operations.addActionListener(abc);
+        addrBookMenu.add(operations);
+        operations = new JMenuItem("Import Serial Addressbook");
+        operations.setActionCommand("Import S");
+        operations.addActionListener(abc);
+        addrBookMenu.add(operations);
+        operations = new JMenuItem("Export XML");
+        operations.setActionCommand("Export X");
+        operations.addActionListener(abc);
+        addrBookMenu.add(operations);
+        operations = new JMenuItem("Import XML");
+        operations.setActionCommand("Import X");
+        operations.addActionListener(abc);
+        addrBookMenu.add(operations);
 
         //Creating buddyInfo Menu
         menuBar.add(buddyInfoMenu);
@@ -72,18 +96,26 @@ public class AddressBookView extends JFrame  {
     }
 
 
-    public static void main(String[] args) {
-        BuddyInfo buddy = new BuddyInfo("Tom","Carleton", 613);
-        BuddyInfo buddy2 = new BuddyInfo("vlad","Carleton", 613);
-        BuddyInfo buddy3 = new BuddyInfo("bob","Carleton", 613);
+
+
+    public void update(AddressBook addressBook){
+        this.addressBook = addressBook;
+        buddies.setModel(addressBook.getBuddies());
+
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        BuddyInfo buddy = new BuddyInfo("Tom","Carleton", "613-123-4569");
+        BuddyInfo buddy2 = new BuddyInfo("vlad","Carleton", "613-345-4320");
+        BuddyInfo buddy3 = new BuddyInfo("bob","Carleton", "613-343-4530");
         AddressBook addressBook = new AddressBook();
         addressBook.addBuddy(buddy);
         addressBook.addBuddy(buddy2);
         addressBook.addBuddy(buddy3);
         AddressBookView ab1 = new AddressBookView(addressBook);
-    }
-
-    public void update(){
-
+        System.out.println(addressBook.toXML());
+       // addressBook.exportToXmlFile("testExp.xml");
+        //addressBook.importFromXmlFile("test.xml");
     }
 }
